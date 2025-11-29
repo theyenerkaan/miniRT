@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <math.h>
 
 int	hit_plane(t_ray ray, t_plane *pl, double t_min, t_hit *hit)
 {
@@ -32,6 +31,5 @@ int	hit_plane(t_ray ray, t_plane *pl, double t_min, t_hit *hit)
 	if (vec3_dot(ray.dir, hit->normal) > 0)
 		hit->normal = vec3_scale(hit->normal, -1);
 	hit->color = pl->color;
-	hit->hit = 1;
 	return (1);
 }

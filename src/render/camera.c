@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <math.h>
 
 void	setup_camera(t_camera *cam)
 {

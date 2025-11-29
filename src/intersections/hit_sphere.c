@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <math.h>
 
 int	hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit)
 {
@@ -36,6 +35,5 @@ int	hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit)
 	hit->point = ray_at(ray, hit->t);
 	hit->normal = vec3_normalize(vec3_sub(hit->point, sp->center));
 	hit->color = sp->color;
-	hit->hit = 1;
 	return (1);
 }

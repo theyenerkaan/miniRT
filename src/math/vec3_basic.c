@@ -36,8 +36,3 @@ t_vec3	vec3_scale(t_vec3 v, double t)
 {
 	return (vec3_new(v.x * t, v.y * t, v.z * t));
 }
-
-t_vec3	vec3_mult(t_vec3 a, t_vec3 b)
-{
-	return (vec3_new(a.x * b.x, a.y * b.y, a.z * b.z));
-}

@@ -38,6 +38,7 @@ SRCS                =   src/main.c \
                         src/parser/parse_elements.c \
                         src/parser/parse_objects.c \
                         src/parser/parse_scene.c \
+                        src/parser/parse_utils.c \
                         src/render/camera.c \
                         src/render/trace.c \
                         src/render/render.c \

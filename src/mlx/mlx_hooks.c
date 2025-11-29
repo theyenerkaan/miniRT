@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <stdlib.h>
 
 void	mlx_destroy_window(void *mlx_ptr, void *win_ptr);
 void	mlx_destroy_image(void *mlx_ptr, void *img_ptr);

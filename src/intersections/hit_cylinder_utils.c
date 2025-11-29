@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <math.h>
 
 int	check_height(t_cylinder *cy, double m)
 {

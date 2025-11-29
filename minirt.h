@@ -123,7 +123,6 @@ typedef struct s_hit
 	t_vec3		point;
 	t_vec3		normal;
 	t_color		color;
-	int			hit;
 }	t_hit;
 
 typedef struct s_mlx
@@ -147,7 +146,6 @@ t_vec3	vec3_new(double x, double y, double z);
 t_vec3	vec3_add(t_vec3 a, t_vec3 b);
 t_vec3	vec3_sub(t_vec3 a, t_vec3 b);
 t_vec3	vec3_scale(t_vec3 v, double t);
-t_vec3	vec3_mult(t_vec3 a, t_vec3 b);
 double	vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3	vec3_cross(t_vec3 a, t_vec3 b);
 double	vec3_len(t_vec3 v);
@@ -171,6 +169,5 @@ int		key_press(int keycode, void *param);
 double	ft_atof(const char *str);
 t_vec3	parse_vec3(char *str);
 t_color	parse_color(char *str);
-void	add_object(t_scene *scene, t_object *new_obj);
 
 #endif

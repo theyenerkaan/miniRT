@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	add_object(t_scene *scene, t_object *new_obj)
+static void	add_object(t_scene *scene, t_object *new_obj)
 {
 	t_object	*tmp;
 

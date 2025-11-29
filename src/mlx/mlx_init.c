@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <stdlib.h>
 
 void	*mlx_init(void);
 void	*mlx_new_window(void *mlx_ptr, int w, int h, char *title);

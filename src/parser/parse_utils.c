@@ -17,36 +17,13 @@ static int	is_space(char c)
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
 }
 
-int	ft_atoi(const char *str)
-{
-	int	result;
-	int	sign;
-
-	while (ft_isspace(*str))
-		str++;
-	sign = 1;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			sign = -1;
-		str++;
-	}
-	result = 0;
-	while (*str >= '0' && *str <= '9')
-	{
-		result = result * 10 + (*str - '0');
-		str++;
-	}
-	return (result * sign);
-}
-
 double	ft_atof(const char *str)
 {
 	double	result;
 	double	fraction;
 	int		sign;
 
-	while (ft_isspace(*str))
+	while (is_space(*str))
 		str++;
 	sign = 1;
 	if (*str == '-' || *str == '+')

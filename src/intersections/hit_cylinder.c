@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <math.h>
 
 int		check_height(t_cylinder *cy, double m);
 void	calc_cylinder_abc(t_ray ray, t_cylinder *cy, t_vec3 oc, double *abc);
@@ -59,6 +58,5 @@ int	hit_cylinder(t_ray ray, t_cylinder *cy, double t_min, t_hit *hit)
 	if (!hit_body(ray, cy, hit))
 		return (0);
 	hit->color = cy->color;
-	hit->hit = 1;
 	return (1);
 }

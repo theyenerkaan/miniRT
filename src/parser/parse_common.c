@@ -12,60 +12,6 @@
 
 #include "minirt.h"
 
-static double	parse_integer_part(const char **str)
-{
-	double	result;
-
-	result = 0.0;
-	while (**str >= '0' && **str <= '9')
-	{
-		result = result * 10.0 + (**str - '0');
-		(*str)++;
-	}
-	return (result);
-}
-
-static double	parse_decimal_part(const char **str)
-{
-	double	result;
-	double	divisor;
-
-	result = 0.0;
-	divisor = 10.0;
-	if (**str == '.')
-	{
-		(*str)++;
-		while (**str >= '0' && **str <= '9')
-		{
-			result += (**str - '0') / divisor;
-			divisor *= 10.0;
-			(*str)++;
-		}
-	}
-	return (result);
-}
-
-double	ft_atof(const char *str)
-{
-	int		sign;
-	double	result;
-
-	if (!str)
-		return (0.0);
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		str++;
-	sign = 1;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			sign = -1;
-		str++;
-	}
-	result = parse_integer_part(&str);
-	result += parse_decimal_part(&str);
-	return (sign * result);
-}
-
 t_vec3	parse_vec3(char *str)
 {
 	char	**parts;
