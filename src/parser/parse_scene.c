@@ -6,44 +6,24 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/11/30 01:29:34 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:33:42 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-char	*get_next_line(int fd);
 void	parse_ambient(t_scene *scene, char **parts);
 void	parse_camera(t_scene *scene, char **parts);
 void	parse_light(t_scene *scene, char **parts);
 void	parse_sphere(t_scene *scene, char **parts);
 void	parse_plane(t_scene *scene, char **parts);
 void	parse_cylinder(t_scene *scene, char **parts);
+void	free_parts(char **parts);
+void	init_scene(t_scene *scene);
+int		check_extension(char *filename);
 
-static void	free_parts(char **parts)
+static void	parse_line_element(t_scene *scene, char **parts)
 {
-	int	i;
-
-	if (!parts)
-		return ;
-	i = 0;
-	while (parts[i])
-		free(parts[i++]);
-	free(parts);
-}
-
-static void	process_line(t_scene *scene, char *line)
-{
-	char	**parts;
-
-	if (!line || !*line || *line == '\n' || *line == '#')
-		return ;
-	parts = ft_split(line, ' ');
-	if (!parts || !parts[0])
-	{
-		free_parts(parts);
-		return ;
-	}
 	if (ft_strncmp(parts[0], "A", 2) == 0)
 		parse_ambient(scene, parts);
 	else if (ft_strncmp(parts[0], "C", 2) == 0)
@@ -56,25 +36,29 @@ static void	process_line(t_scene *scene, char *line)
 		parse_plane(scene, parts);
 	else if (ft_strncmp(parts[0], "cy", 3) == 0)
 		parse_cylinder(scene, parts);
+}
+
+static void	process_line(t_scene *scene, char *line)
+{
+	char	**parts;
+	int		len;
+
+	if (!line || !*line || *line == '\n' || *line == '#')
+		return ;
+	len = ft_strlen(line);
+	while (len > 0 && (line[len - 1] == ' ' || line[len - 1] == '\t'
+			|| line[len - 1] == '\n' || line[len - 1] == '\r'))
+		line[--len] = '\0';
+	if (len == 0)
+		return ;
+	parts = ft_split(line, ' ');
+	if (!parts || !parts[0])
+	{
+		free_parts(parts);
+		return ;
+	}
+	parse_line_element(scene, parts);
 	free_parts(parts);
-}
-
-static void	init_scene(t_scene *scene)
-{
-	scene->has_ambient = 0;
-	scene->has_camera = 0;
-	scene->has_light = 0;
-	scene->objects = NULL;
-}
-
-static int	check_extension(char *filename)
-{
-	int	len;
-
-	len = ft_strlen(filename);
-	if (len < 3)
-		return (0);
-	return (ft_strncmp(filename + len - 3, ".rt", 3) == 0);
 }
 
 t_scene	*parse_scene(char *filename)

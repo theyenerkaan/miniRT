@@ -12,10 +12,6 @@
 
 #include "minirt.h"
 
-int	hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit);
-int	hit_plane(t_ray ray, t_plane *pl, double t_min, t_hit *hit);
-int	hit_cylinder(t_ray ray, t_cylinder *cy, double t_min, t_hit *hit);
-
 static int	check_object_hit(t_ray ray, t_object *obj, t_hit *hit,
 	t_hit *closest)
 {

@@ -12,11 +12,6 @@
 
 #include "minirt.h"
 
-void	*mlx_init(void);
-void	*mlx_new_window(void *mlx_ptr, int w, int h, char *title);
-void	*mlx_new_image(void *mlx_ptr, int w, int h);
-char	*mlx_get_data_addr(void *img, int *bpp, int *sz, int *end);
-
 int	init_mlx(t_minirt *rt)
 {
 	rt->mlx.mlx = mlx_init();

@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/11/30 01:11:51 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:33:42 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit)
 	if (discriminant < 0)
 		return (0);
 	hit->t = (-abc[1] - sqrt(discriminant)) / (2.0 * abc[0]);
-	if (hit->t < t_min || hit->t > hit->t)
+	if (hit->t < t_min)
 		hit->t = (-abc[1] + sqrt(discriminant)) / (2.0 * abc[0]);
 	if (hit->t < t_min)
 		return (0);

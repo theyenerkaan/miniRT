@@ -20,11 +20,9 @@ CC                  =   cc
 CFLAGS              =   -Wall -Wextra -Werror -g
 LIBFT               =   libft/libft.a
 LIBFTDIR            =   libft
-GNL                 =   get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
-GNLDIR              =   get_next_line
 MLX                 =   minilibx-linux/libmlx.a
 MLXDIR              =   minilibx-linux
-INCLUDES            =   -I. -I$(MLXDIR) -I$(LIBFTDIR) -I$(GNLDIR)
+INCLUDES            =   -I. -I$(MLXDIR) -I$(LIBFTDIR) -Iget_next_line
 LIBS                =   -L$(MLXDIR) -lmlx -L$(LIBFTDIR) -lft -lXext -lX11 -lm
 
 SRCS                =   src/main.c \
@@ -50,7 +48,8 @@ SRCS                =   src/main.c \
                         src/shading/shadow.c \
                         src/mlx/mlx_init.c \
                         src/mlx/mlx_hooks.c \
-                        $(GNL)
+                        get_next_line/get_next_line.c \
+                        get_next_line/get_next_line_utils.c
 
 OBJS                =   $(SRCS:.c=.o)
 
@@ -79,7 +78,7 @@ COLOR_RESET         =   \033[0m
 #                  TARGETS                    #
 ###############################################
 
-all: $(LIBFT) $(GNL) $(MLX) $(NAME)
+all: $(LIBFT) $(MLX) $(NAME)
 
 $(LIBFT): $(LIBFTDIR)
 	@make -C $(LIBFTDIR) > /dev/null 2>&1
@@ -88,14 +87,6 @@ $(LIBFTDIR):
 	@echo "$(COLOR_BOLD_CYAN)🌀 cloning libft repository...$(COLOR_RESET)"
 	@echo "$(COLOR_CYAN)"
 	@git clone git@github.com:theyenerkaan/libft.git $(LIBFTDIR)
-	@echo "$(COLOR_RESET)"
-
-$(GNL): $(GNLDIR)
-
-$(GNLDIR):
-	@echo "$(COLOR_BOLD_CYAN)🌀 cloning get_next_line repository...$(COLOR_RESET)"
-	@echo "$(COLOR_CYAN)"
-	@git clone git@github.com:theyenerkaan/get_next_line_true.git $(GNLDIR)
 	@echo "$(COLOR_RESET)"
 
 $(MLX): $(MLXDIR)
@@ -107,7 +98,7 @@ $(MLXDIR):
 	@git clone https://github.com/42Paris/minilibx-linux.git $(MLXDIR)
 	@echo "$(COLOR_RESET)"
 
-$(NAME): $(OBJS) $(HEADER)
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 	@echo "$(COLOR_BOLD_GREEN)✔ Compilation complete!$(COLOR_RESET)"
 
@@ -142,10 +133,10 @@ fclean: clean
 	@echo "$(COLOR_LIGHT_RED)🧹 all object files and executables removed.$(COLOR_RESET)"
 
 clear: fclean
-	@rm -rf $(MLXDIR) $(LIBFTDIR) $(GNLDIR)
+	@rm -rf $(MLXDIR) $(LIBFTDIR)
 
 norm:
-	@rm -rf $(MLXDIR) $(LIBFTDIR) $(GNLDIR)
+	@rm -rf $(MLXDIR) $(LIBFTDIR)
 	norminette
 
 re: fclean all

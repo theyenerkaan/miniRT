@@ -45,3 +45,33 @@ double	ft_atof(const char *str)
 	}
 	return (result * sign);
 }
+
+void	free_parts(char **parts)
+{
+	int	i;
+
+	if (!parts)
+		return ;
+	i = 0;
+	while (parts[i])
+		free(parts[i++]);
+	free(parts);
+}
+
+void	init_scene(t_scene *scene)
+{
+	scene->has_ambient = 0;
+	scene->has_camera = 0;
+	scene->has_light = 0;
+	scene->objects = NULL;
+}
+
+int	check_extension(char *filename)
+{
+	int	len;
+
+	len = ft_strlen(filename);
+	if (len < 3)
+		return (0);
+	return (ft_strncmp(filename + len - 3, ".rt", 3) == 0);
+}

@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include "get_next_line/get_next_line.h"
+# include "minilibx-linux/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -169,5 +170,11 @@ int		key_press(int keycode, void *param);
 double	ft_atof(const char *str);
 t_vec3	parse_vec3(char *str);
 t_color	parse_color(char *str);
+int		hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit);
+int		hit_plane(t_ray ray, t_plane *pl, double t_min, t_hit *hit);
+int		hit_cylinder(t_ray ray, t_cylinder *cy, double t_min, t_hit *hit);
+int		trace_ray(t_ray ray, t_scene *scene, t_hit *closest);
+int		is_in_shadow(t_hit *hit, t_scene *scene);
+t_color	compute_lighting(t_hit *hit, t_scene *scene, t_vec3 light_dir);
 
 #endif

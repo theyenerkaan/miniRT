@@ -12,23 +12,17 @@
 
 #include "minirt.h"
 
-int		mlx_loop(void *mlx_ptr);
-int		mlx_key_hook(void *win, int (*f)(), void *param);
 int		init_mlx(t_minirt *rt);
 void	setup_camera(t_camera *cam);
 void	render_scene(t_minirt *rt);
 
 static void	put_img(void *m, void *w, void *i)
 {
-	extern int	mlx_put_image_to_window(void *, void *, void *, int, int);
-
 	mlx_put_image_to_window(m, w, i, 0, 0);
 }
 
 static int	setup_hook(void *win, t_minirt *rt)
 {
-	extern int	mlx_hook(void *, int, int, int (*)(), void *);
-
 	return (mlx_hook(win, 17, 0, close_window, rt));
 }
 
