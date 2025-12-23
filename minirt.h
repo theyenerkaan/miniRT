@@ -116,6 +116,7 @@ typedef struct s_scene
 	int			has_ambient;
 	int			has_camera;
 	int			has_light;
+	int			object_count;
 }	t_scene;
 
 typedef struct s_hit
@@ -170,6 +171,8 @@ int		key_press(int keycode, void *param);
 double	ft_atof(const char *str);
 t_vec3	parse_vec3(char *str);
 t_color	parse_color(char *str);
+int		is_empty_file(int fd);
+void	free_parts(char **parts);
 int		hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit);
 int		hit_plane(t_ray ray, t_plane *pl, double t_min, t_hit *hit);
 int		hit_cylinder(t_ray ray, t_cylinder *cy, double t_min, t_hit *hit);

@@ -21,14 +21,18 @@ void	parse_sphere(t_scene *scene, char **parts)
 	t_object	*obj;
 
 	if (!parts[1] || !parts[2] || !parts[3])
-		error_exit("Invalid sphere format");
+		error_exit("Sphere: missing parameters (sp x,y,z diameter R,G,B)");
 	if (!*parts[1] || !*parts[2] || !*parts[3])
-		error_exit("Invalid sphere format");
+		error_exit("Sphere: empty parameters");
+	if (parts[4])
+		error_exit("Sphere: too many parameters");
 	sphere = malloc(sizeof(t_sphere));
 	if (!sphere)
 		error_exit("Memory allocation failed");
 	sphere->center = parse_vec3(parts[1]);
 	sphere->diameter = ft_atof(parts[2]);
+	if (sphere->diameter <= 0.0)
+		error_exit("Sphere diameter must be positive");
 	sphere->color = parse_color(parts[3]);
 	obj = malloc(sizeof(t_object));
 	if (!obj)
@@ -37,6 +41,7 @@ void	parse_sphere(t_scene *scene, char **parts)
 	obj->data = sphere;
 	obj->next = NULL;
 	add_object(scene, obj);
+	scene->object_count++;
 }
 
 void	parse_plane(t_scene *scene, char **parts)
@@ -46,9 +51,11 @@ void	parse_plane(t_scene *scene, char **parts)
 	t_vec3		normal;
 
 	if (!parts[1] || !parts[2] || !parts[3])
-		error_exit("Invalid plane format");
+		error_exit("Plane: missing parameters (pl x,y,z nx,ny,nz R,G,B)");
 	if (!*parts[1] || !*parts[2] || !*parts[3])
-		error_exit("Invalid plane format");
+		error_exit("Plane: empty parameters");
+	if (parts[4])
+		error_exit("Plane: too many parameters");
 	plane = malloc(sizeof(t_plane));
 	if (!plane)
 		error_exit("Memory allocation failed");
@@ -64,6 +71,7 @@ void	parse_plane(t_scene *scene, char **parts)
 	obj->data = plane;
 	obj->next = NULL;
 	add_object(scene, obj);
+	scene->object_count++;
 }
 
 static t_cylinder	*create_cylinder(char **parts)
@@ -92,9 +100,11 @@ void	parse_cylinder(t_scene *scene, char **parts)
 	t_object	*obj;
 
 	if (!parts[1] || !parts[2] || !parts[3] || !parts[4] || !parts[5])
-		error_exit("Invalid cylinder format");
+		error_exit("Cylinder: missing parameters (cy x,y,z ax,ay,az d h R,G,B)");
 	if (!*parts[1] || !*parts[2] || !*parts[3] || !*parts[4] || !*parts[5])
-		error_exit("Invalid cylinder format");
+		error_exit("Cylinder: empty parameters");
+	if (parts[6])
+		error_exit("Cylinder: too many parameters");
 	cyl = create_cylinder(parts);
 	obj = malloc(sizeof(t_object));
 	if (!obj)
@@ -106,4 +116,5 @@ void	parse_cylinder(t_scene *scene, char **parts)
 	obj->data = cyl;
 	obj->next = NULL;
 	add_object(scene, obj);
+	scene->object_count++;
 }

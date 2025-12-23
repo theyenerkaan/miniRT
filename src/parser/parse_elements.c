@@ -18,8 +18,12 @@ void	parse_ambient(t_scene *scene, char **parts)
 {
 	if (scene->has_ambient)
 		error_exit("Duplicate ambient light");
-	if (!parts[1] || !parts[2] || !*parts[1] || !*parts[2])
-		error_exit("Invalid ambient format");
+	if (!parts[1] || !parts[2])
+		error_exit("Ambient: missing parameters (A ratio R,G,B)");
+	if (!*parts[1] || !*parts[2])
+		error_exit("Ambient: empty parameters");
+	if (parts[3])
+		error_exit("Ambient: too many parameters");
 	scene->ambient.ratio = ft_atof(parts[1]);
 	scene->ambient.color = parse_color(parts[2]);
 	if (scene->ambient.ratio < 0.0 || scene->ambient.ratio > 1.0)
@@ -34,9 +38,11 @@ void	parse_camera(t_scene *scene, char **parts)
 	if (scene->has_camera)
 		error_exit("Duplicate camera");
 	if (!parts[1] || !parts[2] || !parts[3])
-		error_exit("Invalid camera format");
+		error_exit("Camera: missing parameters (C x,y,z dx,dy,dz fov)");
 	if (!*parts[1] || !*parts[2] || !*parts[3])
-		error_exit("Invalid camera format");
+		error_exit("Camera: empty parameters");
+	if (parts[4])
+		error_exit("Camera: too many parameters");
 	scene->camera.pos = parse_vec3(parts[1]);
 	dir = parse_vec3(parts[2]);
 	validate_normal_vector(dir, "Camera direction must be normalized");
@@ -51,8 +57,12 @@ void	parse_light(t_scene *scene, char **parts)
 {
 	if (scene->has_light)
 		error_exit("Duplicate light");
-	if (!parts[1] || !parts[2] || !*parts[1] || !*parts[2])
-		error_exit("Invalid light format");
+	if (!parts[1] || !parts[2])
+		error_exit("Light: missing parameters (L x,y,z ratio [R,G,B])");
+	if (!*parts[1] || !*parts[2])
+		error_exit("Light: empty parameters");
+	if (parts[3] && parts[4])
+		error_exit("Light: too many parameters");
 	scene->light.pos = parse_vec3(parts[1]);
 	scene->light.ratio = ft_atof(parts[2]);
 	if (parts[3] && *parts[3])

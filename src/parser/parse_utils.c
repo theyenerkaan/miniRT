@@ -64,14 +64,55 @@ void	init_scene(t_scene *scene)
 	scene->has_camera = 0;
 	scene->has_light = 0;
 	scene->objects = NULL;
+	scene->object_count = 0;
 }
 
 int	check_extension(char *filename)
 {
 	int	len;
 
+	if (!filename)
+		return (0);
 	len = ft_strlen(filename);
-	if (len < 3)
+	if (len < 4)
 		return (0);
 	return (ft_strncmp(filename + len - 3, ".rt", 3) == 0);
+}
+
+static int	is_whitespace_line(char *line)
+{
+	if (!line)
+		return (1);
+	while (*line)
+	{
+		if (*line != ' ' && *line != '\t' && *line != '\n' && *line != '\r')
+			return (0);
+		line++;
+	}
+	return (1);
+}
+
+int	is_empty_file(int fd)
+{
+	char	*line;
+	int		has_content;
+
+	has_content = 0;
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (!is_whitespace_line(line))
+			has_content = 1;
+		free(line);
+		if (has_content)
+			break ;
+		line = get_next_line(fd);
+	}
+	while (line)
+	{
+		line = get_next_line(fd);
+		if (line)
+			free(line);
+	}
+	return (!has_content);
 }
