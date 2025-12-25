@@ -6,7 +6,7 @@
 #    By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/21 00:00:00 by kaan              #+#    #+#              #
-#    Updated: 2025/12/24 00:44:29 by yenyilma         ###   ########.fr        #
+#    Updated: 2025/12/25 15:25:26 by yenyilma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,10 @@ SRCS                =   src/main.c \
                         src/math/ray.c \
                         src/parser/parse_common.c \
                         src/parser/parse_common2.c \
+                        src/parser/parse_common3.c \
+                        src/parser/parse_common4.c \
+                        src/parser/parse_context.c \
+                        src/parser/parse_context2.c \
                         src/parser/parse_elements.c \
                         src/parser/parse_objects.c \
                         src/parser/parse_objects2.c \
@@ -41,6 +45,8 @@ SRCS                =   src/main.c \
                         src/parser/parse_scene2.c \
                         src/parser/parse_utils.c \
                         src/parser/parse_utils2.c \
+                        src/parser/parse_utils3.c \
+                        src/parser/parse_utils4.c \
                         src/render/camera.c \
                         src/render/trace.c \
                         src/render/render.c \

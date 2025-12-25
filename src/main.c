@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/11/30 01:29:34 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/25 15:25:26 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int	main(int ac, char **av)
 	free(scene);
 	setup_camera(&rt.scene.camera);
 	if (!init_mlx(&rt))
+	{
+		free_scene(&rt.scene);
 		error_exit("MLX initialization failed");
+	}
 	render_scene(&rt);
 	put_img(rt.mlx.mlx, rt.mlx.win, rt.mlx.img);
 	setup_hook(rt.mlx.win, &rt);

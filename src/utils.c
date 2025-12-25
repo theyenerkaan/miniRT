@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/11/30 01:29:34 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/25 16:23:14 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	error_exit(char *msg)
 			write(2, msg++, 1);
 		write(2, "\n", 1);
 	}
+	get_next_line(-1);
+	cleanup_parse_context();
 	exit(1);
 }
 

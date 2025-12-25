@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/22 21:33:42 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/25 15:25:26 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ static void	parse_line_element(t_scene *scene, char **parts)
 		error_exit("Invalid identifier (expected: A, C, L, sp, pl, cy)");
 }
 
+static void	clean_line(char *line, int *len)
+{
+	while (line[*len])
+	{
+		if (line[*len] == '\t')
+			line[*len] = ' ';
+		(*len)++;
+	}
+	*len = ft_strlen(line);
+	while (*len > 0 && (line[*len - 1] == ' ' || line[*len - 1] == '\t'
+			|| line[*len - 1] == '\n' || line[*len - 1] == '\r'))
+		line[--(*len)] = '\0';
+}
+
 void	process_line(t_scene *scene, char *line)
 {
 	char	**parts;
@@ -48,20 +62,21 @@ void	process_line(t_scene *scene, char *line)
 
 	if (!line || !*line || *line == '\n' || *line == '#')
 		return ;
-	len = ft_strlen(line);
-	while (len > 0 && (line[len - 1] == ' ' || line[len - 1] == '\t'
-			|| line[len - 1] == '\n' || line[len - 1] == '\r'))
-		line[--len] = '\0';
+	len = 0;
+	clean_line(line, &len);
 	if (len == 0)
 		return ;
 	parts = ft_split(line, ' ');
+	set_current_parts(parts);
 	if (!parts || !parts[0])
 	{
 		free_parts(parts);
+		clear_current_parts();
 		return ;
 	}
 	parse_line_element(scene, parts);
 	free_parts(parts);
+	clear_current_parts();
 }
 
 t_scene	*parse_scene(char *filename)

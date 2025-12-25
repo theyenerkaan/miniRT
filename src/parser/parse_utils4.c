@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_common2.c                                    :+:      :+:    :+:   */
+/*   parse_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/25 16:40:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 16:40:00 by yenyilma         ###   ########.fr       */
+/*   Created: 2025/12/25 18:10:00 by yenyilma          #+#    #+#             */
+/*   Updated: 2025/12/25 18:10:00 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	free_three(char *a, char *b, char *c)
+int	check_extension(char *filename)
 {
-	if (a)
-		free(a);
-	if (b)
-		free(b);
-	if (c)
-		free(c);
+	int	len;
+
+	if (!filename)
+		return (0);
+	len = ft_strlen(filename);
+	if (len < 4)
+		return (0);
+	return (ft_strncmp(filename + len - 3, ".rt", 3) == 0);
 }
 
-void	validate_rgb(int *rgb)
+void	init_scene(t_scene *scene)
 {
-	if (rgb[0] < 0 || rgb[0] > 255 || rgb[1] < 0 || rgb[1] > 255
-		|| rgb[2] < 0 || rgb[2] > 255)
-		error_exit("Color values must be in range [0-255]");
+	scene->has_ambient = 0;
+	scene->has_camera = 0;
+	scene->has_light = 0;
+	scene->objects = NULL;
+	scene->object_count = 0;
 }

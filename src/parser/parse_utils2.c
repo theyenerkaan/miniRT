@@ -6,46 +6,43 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 00:00:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2024/12/24 00:00:00 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/25 16:23:14 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static int	is_whitespace_line(char *line)
+static int	all_whitespace(const char *buf, ssize_t len)
 {
-	if (!line)
-		return (1);
-	while (*line)
+	ssize_t	i;
+
+	i = 0;
+	while (i < len)
 	{
-		if (*line != ' ' && *line != '\t' && *line != '\n' && *line != '\r')
+		if (buf[i] != ' ' && buf[i] != '\t' && buf[i] != '\n' && buf[i] != '\r')
 			return (0);
-		line++;
+		i++;
 	}
 	return (1);
 }
 
 int	is_empty_file(int fd)
 {
-	char	*line;
-	int		has_content;
+	char		buf[256];
+	ssize_t		read_bytes;
+	int			only_ws;
 
-	has_content = 0;
-	line = get_next_line(fd);
-	while (line)
+	only_ws = 1;
+	read_bytes = read(fd, buf, sizeof(buf));
+	if (read_bytes < 0)
+		error_exit("Cannot read file");
+	while (read_bytes > 0)
 	{
-		if (!is_whitespace_line(line))
-			has_content = 1;
-		free(line);
-		if (has_content)
-			break ;
-		line = get_next_line(fd);
+		if (!all_whitespace(buf, read_bytes))
+			only_ws = 0;
+		read_bytes = read(fd, buf, sizeof(buf));
+		if (read_bytes < 0)
+			error_exit("Cannot read file");
 	}
-	while (line)
-	{
-		line = get_next_line(fd);
-		if (line)
-			free(line);
-	}
-	return (!has_content);
+	return (only_ws);
 }

@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_common2.c                                    :+:      :+:    :+:   */
+/*   parse_context.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/25 16:40:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 16:40:00 by yenyilma         ###   ########.fr       */
+/*   Created: 2025/12/25 16:30:00 by yenyilma          #+#    #+#             */
+/*   Updated: 2025/12/25 16:30:00 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	free_three(char *a, char *b, char *c)
+typedef struct s_parse_ctx
 {
-	if (a)
-		free(a);
-	if (b)
-		free(b);
-	if (c)
-		free(c);
+	t_scene	*scene;
+	char	*line;
+	char	**parts;
+}t_parse_ctx;
+
+t_parse_ctx	g_ctx = {0};
+
+void	set_parse_context(t_scene *scene)
+{
+	g_ctx.scene = scene;
 }
 
-void	validate_rgb(int *rgb)
+void	set_current_line(char *line)
 {
-	if (rgb[0] < 0 || rgb[0] > 255 || rgb[1] < 0 || rgb[1] > 255
-		|| rgb[2] < 0 || rgb[2] > 255)
-		error_exit("Color values must be in range [0-255]");
+	g_ctx.line = line;
+}
+
+void	clear_current_line(void)
+{
+	g_ctx.line = NULL;
+}
+
+void	set_current_parts(char **parts)
+{
+	g_ctx.parts = parts;
 }

@@ -6,23 +6,72 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/11/30 01:29:34 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/25 16:23:14 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static int	is_space(char c)
+double	parse_decimal_part(const char **str);
+int		is_space(char c);
+int		check_sign_and_space(const char *str, int i);
+
+static int	check_remaining(const char *str, int i, int dots, int digits)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
+	while (str[i])
+	{
+		if (is_space(str[i]))
+		{
+			while (str[i] && is_space(str[i]))
+				i++;
+			return (str[i] == '\0' && digits);
+		}
+		if (str[i] == '.')
+		{
+			dots++;
+			if (dots > 1 || !ft_isdigit(str[i + 1]))
+				return (0);
+		}
+		else if (ft_isdigit(str[i]))
+			digits = 1;
+		else
+			return (0);
+		i++;
+	}
+	return (digits);
+}
+
+static int	valid_number_format(const char *str)
+{
+	int	i;
+	int	result;
+
+	i = 0;
+	while (str[i] && is_space(str[i]))
+		i++;
+	result = check_sign_and_space(str, i);
+	if (result < 0)
+		return (0);
+	return (check_remaining(str, result, 0, 0));
+}
+
+static double	parse_integer_part(const char **str)
+{
+	double	result;
+
+	result = 0;
+	while (**str && **str >= '0' && **str <= '9')
+		result = result * 10 + (*(*str)++ - '0');
+	return (result);
 }
 
 double	ft_atof(const char *str)
 {
-	double	result;
-	double	fraction;
 	int		sign;
+	double	result;
 
+	if (!str || !valid_number_format(str))
+		error_exit("Invalid number format");
 	while (is_space(*str))
 		str++;
 	sign = 1;
@@ -32,49 +81,7 @@ double	ft_atof(const char *str)
 			sign = -1;
 		str++;
 	}
-	result = 0;
-	while (*str >= '0' && *str <= '9')
-		result = result * 10 + (*str++ - '0');
-	if (*str == '.')
-		str++;
-	fraction = 0.1;
-	while (*str >= '0' && *str <= '9')
-	{
-		result += (*str++ - '0') * fraction;
-		fraction *= 0.1;
-	}
+	result = parse_integer_part(&str);
+	result += parse_decimal_part(&str);
 	return (result * sign);
-}
-
-void	free_parts(char **parts)
-{
-	int	i;
-
-	if (!parts)
-		return ;
-	i = 0;
-	while (parts[i])
-		free(parts[i++]);
-	free(parts);
-}
-
-void	init_scene(t_scene *scene)
-{
-	scene->has_ambient = 0;
-	scene->has_camera = 0;
-	scene->has_light = 0;
-	scene->objects = NULL;
-	scene->object_count = 0;
-}
-
-int	check_extension(char *filename)
-{
-	int	len;
-
-	if (!filename)
-		return (0);
-	len = ft_strlen(filename);
-	if (len < 4)
-		return (0);
-	return (ft_strncmp(filename + len - 3, ".rt", 3) == 0);
 }

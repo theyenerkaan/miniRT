@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/11/30 01:29:34 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/25 15:25:26 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,12 @@ t_color	parse_color(char *str);
 int		is_empty_file(int fd);
 void	free_parts(char **parts);
 void	process_line(t_scene *scene, char *line);
+void	set_parse_context(t_scene *scene);
+void	set_current_line(char *line);
+void	clear_current_line(void);
+void	set_current_parts(char **parts);
+void	clear_current_parts(void);
+void	cleanup_parse_context(void);
 int		hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit);
 int		hit_plane(t_ray ray, t_plane *pl, double t_min, t_hit *hit);
 int		hit_cylinder(t_ray ray, t_cylinder *cy, double t_min, t_hit *hit);

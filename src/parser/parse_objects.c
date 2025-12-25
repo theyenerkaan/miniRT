@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/22 21:33:42 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/25 16:23:14 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,71 +14,31 @@
 
 void		validate_normal_vector(t_vec3 vec, char *error_msg);
 void		add_object(t_scene *scene, t_object *new_obj);
-t_cylinder	*create_cylinder(char **parts);
+void		create_sphere_obj(t_scene *scene, t_vec3 ctr, double d, t_color c);
 
-void	parse_sphere(t_scene *scene, char **parts)
+static void	check_sphere_params(char **parts)
 {
-	t_sphere	*sphere;
-	t_object	*obj;
-
 	if (!parts[1] || !parts[2] || !parts[3])
 		error_exit("Sphere: missing parameters (sp x,y,z diameter R,G,B)");
 	if (!*parts[1] || !*parts[2] || !*parts[3])
 		error_exit("Sphere: empty parameters");
 	if (parts[4])
 		error_exit("Sphere: too many parameters");
-	sphere = malloc(sizeof(t_sphere));
-	if (!sphere)
-		error_exit("Memory allocation failed");
-	sphere->center = parse_vec3(parts[1]);
-	sphere->diameter = ft_atof(parts[2]);
-	if (sphere->diameter <= 0.0)
+}
+
+void	parse_sphere(t_scene *scene, char **parts)
+{
+	t_vec3		center;
+	double		diameter;
+	t_color		color;
+
+	check_sphere_params(parts);
+	center = parse_vec3(parts[1]);
+	diameter = ft_atof(parts[2]);
+	if (diameter <= 0.0)
 		error_exit("Sphere diameter must be positive");
-	sphere->color = parse_color(parts[3]);
-	obj = malloc(sizeof(t_object));
-	if (!obj)
-		error_exit("Memory allocation failed");
-	obj->type = OBJ_SPHERE;
-	obj->data = sphere;
-	obj->next = NULL;
-	add_object(scene, obj);
-	scene->object_count++;
-}
-
-static void	create_plane_obj(t_scene *scene, t_plane *plane)
-{
-	t_object	*obj;
-
-	obj = malloc(sizeof(t_object));
-	if (!obj)
-		error_exit("Memory allocation failed");
-	obj->type = OBJ_PLANE;
-	obj->data = plane;
-	obj->next = NULL;
-	add_object(scene, obj);
-	scene->object_count++;
-}
-
-void	parse_plane(t_scene *scene, char **parts)
-{
-	t_plane		*plane;
-	t_vec3		normal;
-
-	if (!parts[1] || !parts[2] || !parts[3])
-		error_exit("Plane: missing params (pl x,y,z nx,ny,nz R,G,B)");
-	if (!*parts[1] || !*parts[2] || !*parts[3])
-		error_exit("Plane: empty parameters");
-	if (parts[4])
-		error_exit("Plane: too many parameters");
-	plane = malloc(sizeof(t_plane));
-	if (!plane)
-		error_exit("Memory allocation failed");
-	plane->point = parse_vec3(parts[1]);
-	normal = parse_vec3(parts[2]);
-	validate_normal_vector(normal, "Plane normal must be normalized");
-	plane->normal = vec3_normalize(normal);
-	plane->color = parse_color(parts[3]);
-	create_plane_obj(scene, plane);
+	color = parse_color(parts[3]);
+	create_sphere_obj(scene, center, diameter, color);
 }
 
 static void	check_cylinder_params(char **parts)
@@ -91,22 +51,43 @@ static void	check_cylinder_params(char **parts)
 		error_exit("Cylinder: too many parameters");
 }
 
-void	parse_cylinder(t_scene *scene, char **parts)
+static void	create_cyl_obj(t_scene *s, t_cylinder *cy)
 {
-	t_cylinder	*cyl;
 	t_object	*obj;
 
-	check_cylinder_params(parts);
-	cyl = create_cylinder(parts);
 	obj = malloc(sizeof(t_object));
 	if (!obj)
 	{
-		free(cyl);
+		free(cy);
 		error_exit("Memory allocation failed");
 	}
 	obj->type = OBJ_CYLINDER;
-	obj->data = cyl;
+	obj->data = cy;
 	obj->next = NULL;
-	add_object(scene, obj);
-	scene->object_count++;
+	add_object(s, obj);
+	s->object_count++;
+}
+
+void	parse_cylinder(t_scene *scene, char **parts)
+{
+	t_cylinder	*cyl;
+	t_vec3		axis;
+
+	check_cylinder_params(parts);
+	cyl = malloc(sizeof(t_cylinder));
+	if (!cyl)
+		error_exit("Memory allocation failed");
+	cyl->center = parse_vec3(parts[1]);
+	axis = parse_vec3(parts[2]);
+	validate_normal_vector(axis, "Cylinder axis must be normalized");
+	cyl->axis = vec3_normalize(axis);
+	cyl->diameter = ft_atof(parts[3]);
+	cyl->height = ft_atof(parts[4]);
+	if (cyl->diameter <= 0.0 || cyl->height <= 0.0)
+	{
+		free(cyl);
+		error_exit("Cylinder diameter and height must be positive");
+	}
+	cyl->color = parse_color(parts[5]);
+	create_cyl_obj(scene, cyl);
 }
