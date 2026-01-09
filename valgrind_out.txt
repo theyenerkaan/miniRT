@@ -1,0 +1,15 @@
+==573036== Memcheck, a memory error detector
+==573036== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==573036== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==573036== Command: ./miniRT
+==573036== Parent PID: 573021
+==573036== 
+==573036== 
+==573036== HEAP SUMMARY:
+==573036==     in use at exit: 0 bytes in 0 blocks
+==573036==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==573036== 
+==573036== All heap blocks were freed -- no leaks are possible
+==573036== 
+==573036== For lists of detected and suppressed errors, rerun with: -s
+==573036== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

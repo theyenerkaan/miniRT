@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/22 21:58:48 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/09 17:12:47 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	is_in_shadow(t_hit *hit, t_scene *scene)
 	t_object	*obj;
 	t_vec3		offset_point;
 
+	if (!scene->has_light)
+		return (0);
 	light_vec = vec3_sub(scene->light.pos, hit->point);
 	light_dist = vec3_len(light_vec);
 	offset_point = vec3_add(hit->point, vec3_scale(hit->normal, 0.001));

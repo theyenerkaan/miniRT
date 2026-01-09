@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 17:00:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 17:00:00 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:50:13 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	create_sphere_obj(t_scene *scene, t_vec3 ctr, double d, t_color c)
 	sphere->color = c;
 	obj = malloc(sizeof(t_object));
 	if (!obj)
+	{
+		free(sphere);
 		error_exit("Memory allocation failed");
+	}
 	obj->type = OBJ_SPHERE;
 	obj->data = sphere;
 	obj->next = NULL;
@@ -42,7 +45,10 @@ static void	create_plane_obj(t_scene *scene, t_plane *plane)
 
 	obj = malloc(sizeof(t_object));
 	if (!obj)
+	{
+		free(plane);
 		error_exit("Memory allocation failed");
+	}
 	obj->type = OBJ_PLANE;
 	obj->data = plane;
 	obj->next = NULL;

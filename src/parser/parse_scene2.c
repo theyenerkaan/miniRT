@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 00:00:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 16:23:14 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/09 17:12:47 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ static void	read_scene_file(t_scene *scene, int fd)
 
 static void	validate_scene(t_scene *scene)
 {
-	if (!scene->has_ambient || !scene->has_camera || !scene->has_light)
-		error_exit("Missing required elements (A, C, L)");
+	if (!scene->has_ambient || !scene->has_camera)
+		error_exit("Missing required elements (A, C)");
 	if (scene->object_count == 0)
 		error_exit("Scene must contain at least one object (sp, pl, cy)");
 }

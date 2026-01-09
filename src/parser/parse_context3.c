@@ -1,52 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_context.c                                    :+:      :+:    :+:   */
+/*   parse_context3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/25 16:30:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2026/01/09 16:50:13 by yenyilma         ###   ########.fr       */
+/*   Created: 2026/01/09 17:00:00 by yenyilma          #+#    #+#             */
+/*   Updated: 2026/01/09 17:00:00 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_parse_ctx	*get_parse_context(void)
-{
-	static t_parse_ctx	ctx = {0};
-
-	return (&ctx);
-}
-
-void	set_parse_context(t_scene *scene)
+void	register_temp_alloc(void *ptr)
 {
 	t_parse_ctx	*ctx;
 
+	if (!ptr)
+		return ;
 	ctx = get_parse_context();
-	ctx->scene = scene;
+	if (ctx->temp_count < MAX_TEMP_ALLOCS)
+		ctx->temp_allocs[ctx->temp_count++] = ptr;
 }
 
-void	set_current_line(char *line)
+void	unregister_temp_alloc(void *ptr)
 {
 	t_parse_ctx	*ctx;
+	int			i;
 
+	if (!ptr)
+		return ;
 	ctx = get_parse_context();
-	ctx->line = line;
+	i = 0;
+	while (i < ctx->temp_count)
+	{
+		if (ctx->temp_allocs[i] == ptr)
+		{
+			while (i < ctx->temp_count - 1)
+			{
+				ctx->temp_allocs[i] = ctx->temp_allocs[i + 1];
+				i++;
+			}
+			ctx->temp_count--;
+			return ;
+		}
+		i++;
+	}
 }
 
-void	clear_current_line(void)
+void	clear_temp_allocs(void)
 {
 	t_parse_ctx	*ctx;
+	int			i;
 
 	ctx = get_parse_context();
-	ctx->line = NULL;
-}
-
-void	set_current_parts(char **parts)
-{
-	t_parse_ctx	*ctx;
-
-	ctx = get_parse_context();
-	ctx->parts = parts;
+	i = 0;
+	while (i < ctx->temp_count)
+	{
+		free(ctx->temp_allocs[i]);
+		i++;
+	}
+	ctx->temp_count = 0;
 }

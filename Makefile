@@ -38,6 +38,7 @@ SRCS                =   src/main.c \
                         src/parser/parse_common4.c \
                         src/parser/parse_context.c \
                         src/parser/parse_context2.c \
+                        src/parser/parse_context3.c \
                         src/parser/parse_elements.c \
                         src/parser/parse_objects.c \
                         src/parser/parse_objects2.c \

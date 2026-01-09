@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 15:38:14 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:50:13 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ static void	parse_vec3_parts(char *str, char **xs, char **ys, char **zs)
 		free_three(*xs, *ys, *zs);
 		error_exit("Invalid vector format");
 	}
+	register_temp_alloc(*xs);
+	register_temp_alloc(*ys);
+	register_temp_alloc(*zs);
 }
 
 t_vec3	parse_vec3(char *str)
@@ -46,6 +49,9 @@ t_vec3	parse_vec3(char *str)
 	v.x = ft_atof(xs);
 	v.y = ft_atof(ys);
 	v.z = ft_atof(zs);
+	unregister_temp_alloc(xs);
+	unregister_temp_alloc(ys);
+	unregister_temp_alloc(zs);
 	free_three(xs, ys, zs);
 	return (v);
 }
@@ -85,6 +91,9 @@ static void	parse_color_parts(char *str, char **rs, char **gs, char **bs)
 		free_three(*rs, *gs, *bs);
 		error_exit("Invalid color format");
 	}
+	register_temp_alloc(*rs);
+	register_temp_alloc(*gs);
+	register_temp_alloc(*bs);
 }
 
 t_color	parse_color(char *str)
@@ -99,6 +108,9 @@ t_color	parse_color(char *str)
 	rgb[0] = (int)ft_atof(rs);
 	rgb[1] = (int)ft_atof(gs);
 	rgb[2] = (int)ft_atof(bs);
+	unregister_temp_alloc(rs);
+	unregister_temp_alloc(gs);
+	unregister_temp_alloc(bs);
 	free_three(rs, gs, bs);
 	validate_rgb(rgb);
 	c.r = rgb[0] / 255.0;

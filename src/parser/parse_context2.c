@@ -6,42 +6,53 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 16:50:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 16:50:00 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:50:13 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-typedef struct s_parse_ctx
-{
-	t_scene	*scene;
-	char	*line;
-	char	**parts;
-}t_parse_ctx;
-
-extern t_parse_ctx	g_ctx;
-
 void	clear_current_parts(void)
 {
-	g_ctx.parts = NULL;
+	t_parse_ctx	*ctx;
+
+	ctx = get_parse_context();
+	ctx->parts = NULL;
+}
+
+static void	cleanup_temp_allocs(t_parse_ctx *ctx)
+{
+	int	i;
+
+	i = 0;
+	while (i < ctx->temp_count)
+	{
+		free(ctx->temp_allocs[i]);
+		i++;
+	}
+	ctx->temp_count = 0;
 }
 
 void	cleanup_parse_context(void)
 {
-	if (g_ctx.parts)
+	t_parse_ctx	*ctx;
+
+	ctx = get_parse_context();
+	cleanup_temp_allocs(ctx);
+	if (ctx->parts)
 	{
-		free_parts(g_ctx.parts);
-		g_ctx.parts = NULL;
+		free_parts(ctx->parts);
+		ctx->parts = NULL;
 	}
-	if (g_ctx.line)
+	if (ctx->line)
 	{
-		free(g_ctx.line);
-		g_ctx.line = NULL;
+		free(ctx->line);
+		ctx->line = NULL;
 	}
-	if (g_ctx.scene)
+	if (ctx->scene)
 	{
-		free_scene(g_ctx.scene);
-		free(g_ctx.scene);
-		g_ctx.scene = NULL;
+		free_scene(ctx->scene);
+		free(ctx->scene);
+		ctx->scene = NULL;
 	}
 }

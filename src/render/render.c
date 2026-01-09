@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/11/30 01:11:51 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/09 17:12:47 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static t_color	trace_pixel(t_scene *scene, int x, int y)
 	ray = get_ray(&scene->camera, u, v);
 	if (trace_ray(ray, scene, &hit))
 	{
+		if (!scene->has_light)
+			return (color_scale(hit.color, scene->ambient.ratio));
 		light_dir = vec3_normalize(vec3_sub(scene->light.pos, hit.point));
 		if (is_in_shadow(&hit, scene))
 			return (color_scale(hit.color, scene->ambient.ratio));

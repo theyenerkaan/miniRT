@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 15:25:26 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/09 20:44:59 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define WIDTH 800
 # define HEIGHT 600
 # define EPSILON 1e-6
+# define MAX_TEMP_ALLOCS 64
 
 typedef struct s_vec3
 {
@@ -119,6 +120,15 @@ typedef struct s_scene
 	int			object_count;
 }	t_scene;
 
+typedef struct s_parse_ctx
+{
+	t_scene	*scene;
+	char	*line;
+	char	**parts;
+	void	*temp_allocs[MAX_TEMP_ALLOCS];
+	int		temp_count;
+}	t_parse_ctx;
+
 typedef struct s_hit
 {
 	double		t;
@@ -144,47 +154,51 @@ typedef struct s_minirt
 	t_scene		scene;
 }	t_minirt;
 
-t_vec3	vec3_new(double x, double y, double z);
-t_vec3	vec3_add(t_vec3 a, t_vec3 b);
-t_vec3	vec3_sub(t_vec3 a, t_vec3 b);
-t_vec3	vec3_scale(t_vec3 v, double t);
-double	vec3_dot(t_vec3 a, t_vec3 b);
-t_vec3	vec3_cross(t_vec3 a, t_vec3 b);
-double	vec3_len(t_vec3 v);
-double	vec3_len_sq(t_vec3 v);
-t_vec3	vec3_normalize(t_vec3 v);
-t_color	color_new(double r, double g, double b);
-t_color	color_add(t_color a, t_color b);
-t_color	color_mult(t_color a, t_color b);
-t_color	color_scale(t_color c, double t);
-int		color_to_int(t_color c);
-t_color	color_clamp(t_color c);
-t_ray	ray_new(t_vec3 origin, t_vec3 dir);
-t_vec3	ray_at(t_ray r, double t);
-void	error_exit(char *msg);
-void	free_scene(t_scene *scene);
-t_scene	*parse_scene(char *filename);
-void	setup_camera(t_camera *cam);
-void	render_scene(t_minirt *rt);
-int		close_window(void *param);
-int		key_press(int keycode, void *param);
-double	ft_atof(const char *str);
-t_vec3	parse_vec3(char *str);
-t_color	parse_color(char *str);
-int		is_empty_file(int fd);
-void	free_parts(char **parts);
-void	process_line(t_scene *scene, char *line);
-void	set_parse_context(t_scene *scene);
-void	set_current_line(char *line);
-void	clear_current_line(void);
-void	set_current_parts(char **parts);
-void	clear_current_parts(void);
-void	cleanup_parse_context(void);
-int		hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit);
-int		hit_plane(t_ray ray, t_plane *pl, double t_min, t_hit *hit);
-int		hit_cylinder(t_ray ray, t_cylinder *cy, double t_min, t_hit *hit);
-int		trace_ray(t_ray ray, t_scene *scene, t_hit *closest);
-int		is_in_shadow(t_hit *hit, t_scene *scene);
-t_color	compute_lighting(t_hit *hit, t_scene *scene, t_vec3 light_dir);
+t_vec3		vec3_new(double x, double y, double z);
+t_vec3		vec3_add(t_vec3 a, t_vec3 b);
+t_vec3		vec3_sub(t_vec3 a, t_vec3 b);
+t_vec3		vec3_scale(t_vec3 v, double t);
+double		vec3_dot(t_vec3 a, t_vec3 b);
+t_vec3		vec3_cross(t_vec3 a, t_vec3 b);
+double		vec3_len(t_vec3 v);
+double		vec3_len_sq(t_vec3 v);
+t_vec3		vec3_normalize(t_vec3 v);
+t_color		color_new(double r, double g, double b);
+t_color		color_add(t_color a, t_color b);
+t_color		color_mult(t_color a, t_color b);
+t_color		color_scale(t_color c, double t);
+int			color_to_int(t_color c);
+t_color		color_clamp(t_color c);
+t_ray		ray_new(t_vec3 origin, t_vec3 dir);
+t_vec3		ray_at(t_ray r, double t);
+void		error_exit(char *msg);
+void		free_scene(t_scene *scene);
+t_scene		*parse_scene(char *filename);
+void		setup_camera(t_camera *cam);
+void		render_scene(t_minirt *rt);
+int			close_window(void *param);
+int			key_press(int keycode, void *param);
+double		ft_atof(const char *str);
+t_vec3		parse_vec3(char *str);
+t_color		parse_color(char *str);
+int			is_empty_file(int fd);
+void		free_parts(char **parts);
+void		process_line(t_scene *scene, char *line);
+t_parse_ctx	*get_parse_context(void);
+void		set_parse_context(t_scene *scene);
+void		set_current_line(char *line);
+void		clear_current_line(void);
+void		set_current_parts(char **parts);
+void		clear_current_parts(void);
+void		cleanup_parse_context(void);
+void		register_temp_alloc(void *ptr);
+void		unregister_temp_alloc(void *ptr);
+void		clear_temp_allocs(void);
+int			hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit);
+int			hit_plane(t_ray ray, t_plane *pl, double t_min, t_hit *hit);
+int			hit_cylinder(t_ray ray, t_cylinder *cy, double t_min, t_hit *hit);
+int			trace_ray(t_ray ray, t_scene *scene, t_hit *closest);
+int			is_in_shadow(t_hit *hit, t_scene *scene);
+t_color		compute_lighting(t_hit *hit, t_scene *scene, t_vec3 light_dir);
 
 #endif

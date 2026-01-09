@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 16:23:14 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:50:13 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	parse_cylinder(t_scene *scene, char **parts)
 	cyl = malloc(sizeof(t_cylinder));
 	if (!cyl)
 		error_exit("Memory allocation failed");
+	register_temp_alloc(cyl);
 	cyl->center = parse_vec3(parts[1]);
 	axis = parse_vec3(parts[2]);
 	validate_normal_vector(axis, "Cylinder axis must be normalized");
@@ -85,9 +86,11 @@ void	parse_cylinder(t_scene *scene, char **parts)
 	cyl->height = ft_atof(parts[4]);
 	if (cyl->diameter <= 0.0 || cyl->height <= 0.0)
 	{
+		unregister_temp_alloc(cyl);
 		free(cyl);
 		error_exit("Cylinder diameter and height must be positive");
 	}
 	cyl->color = parse_color(parts[5]);
+	unregister_temp_alloc(cyl);
 	create_cyl_obj(scene, cyl);
 }
