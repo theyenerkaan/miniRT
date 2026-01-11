@@ -29,7 +29,7 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		error_exit("Usage: ./miniRT <scene.rt>");
-	scene = parse_scene(av[1]);
+	scene = parse_scene_file(av[1]);
 	rt.scene = *scene;
 	free(scene);
 	setup_camera(&rt.scene.camera);

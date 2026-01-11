@@ -47,18 +47,3 @@ void	unregister_temp_alloc(void *ptr)
 		i++;
 	}
 }
-
-void	clear_temp_allocs(void)
-{
-	t_parse_ctx	*ctx;
-	int			i;
-
-	ctx = get_parse_context();
-	i = 0;
-	while (i < ctx->temp_count)
-	{
-		free(ctx->temp_allocs[i]);
-		i++;
-	}
-	ctx->temp_count = 0;
-}

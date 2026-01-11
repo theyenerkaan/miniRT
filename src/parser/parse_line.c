@@ -67,8 +67,3 @@ void	process_line(t_scene *scene, char *line)
 	free_parts(parts);
 	clear_current_parts();
 }
-
-t_scene	*parse_scene(char *filename)
-{
-	return (parse_scene_file(filename));
-}
