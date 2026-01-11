@@ -6,13 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 18:00:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 18:00:00 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:00:29 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-char	*trimmed_dup(const char *start, int len);
 
 static int	is_space_char(char c)
 {

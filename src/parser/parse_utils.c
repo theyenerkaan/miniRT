@@ -6,15 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 16:23:14 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:02:45 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-double	parse_decimal_part(const char **str);
-int		is_space(char c);
-int		check_sign_and_space(const char *str, int i);
 
 static int	check_remaining(const char *str, int i, int dots, int digits)
 {

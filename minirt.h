@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2026/01/09 20:44:59 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:03:50 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,5 +200,40 @@ int			hit_cylinder(t_ray ray, t_cylinder *cy, double t_min, t_hit *hit);
 int			trace_ray(t_ray ray, t_scene *scene, t_hit *closest);
 int			is_in_shadow(t_hit *hit, t_scene *scene);
 t_color		compute_lighting(t_hit *hit, t_scene *scene, t_vec3 light_dir);
+int			init_mlx(t_minirt *rt);
+void		setup_camera(t_camera *cam);
+void		render_scene(t_minirt *rt);
+t_ray		get_ray(t_camera *cam, double u, double v);
+int			trace_ray(t_ray ray, t_scene *scene, t_hit *closest);
+t_color		compute_lighting(t_hit *hit, t_scene *scene, t_vec3 light_dir);
+int			is_in_shadow(t_hit *hit, t_scene *scene);
+int			check_height(t_cylinder *cy, double m);
+void		calc_cylinder_abc(t_ray ray, t_cylinder *cy,
+				t_vec3 oc, double *abc);
+double		solve_cylinder(double *abc, double discriminant, int first);
+int			next_part(char *str, int *i, char **out, int require_comma);
+int			has_extra(char *str, int i);
+void		free_three(char *a, char *b, char *c);
+void		validate_rgb(int *rgb);
+char		*trimmed_dup(const char *start, int len);
+void		validate_normal_vector(t_vec3 vec, char *error_msg);
+void		add_object(t_scene *scene, t_object *new_obj);
+void		create_sphere_obj(t_scene *scene, t_vec3 ctr, double d, t_color c);
+void		parse_ambient(t_scene *scene, char **parts);
+void		parse_camera(t_scene *scene, char **parts);
+void		parse_light(t_scene *scene, char **parts);
+void		parse_sphere(t_scene *scene, char **parts);
+void		parse_plane(t_scene *scene, char **parts);
+void		parse_cylinder(t_scene *scene, char **parts);
+void		free_parts(char **parts);
+int			check_extension(char *filename);
+int			is_empty_file(int fd);
+t_scene		*parse_scene_file(char *filename);
+void		init_scene(t_scene *scene);
+int			check_extension(char *filename);
+int			is_empty_file(int fd);
+double		parse_decimal_part(const char **str);
+int			is_space(char c);
+int			check_sign_and_space(const char *str, int i);
 
 #endif

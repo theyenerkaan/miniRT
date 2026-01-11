@@ -6,16 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2026/01/09 17:12:47 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 17:58:08 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-t_ray		get_ray(t_camera *cam, double u, double v);
-int			trace_ray(t_ray ray, t_scene *scene, t_hit *closest);
-t_color		compute_lighting(t_hit *hit, t_scene *scene, t_vec3 light_dir);
-int			is_in_shadow(t_hit *hit, t_scene *scene);
 
 static void	put_pixel(t_mlx *mlx, int x, int y, int color)
 {

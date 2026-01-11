@@ -6,22 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 15:25:26 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:02:02 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	parse_ambient(t_scene *scene, char **parts);
-void	parse_camera(t_scene *scene, char **parts);
-void	parse_light(t_scene *scene, char **parts);
-void	parse_sphere(t_scene *scene, char **parts);
-void	parse_plane(t_scene *scene, char **parts);
-void	parse_cylinder(t_scene *scene, char **parts);
-void	free_parts(char **parts);
-int		check_extension(char *filename);
-int		is_empty_file(int fd);
-t_scene	*parse_scene_file(char *filename);
 
 static void	parse_line_element(t_scene *scene, char **parts)
 {

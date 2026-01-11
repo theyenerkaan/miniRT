@@ -6,16 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2026/01/09 16:50:13 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:00:11 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-int		next_part(char *str, int *i, char **out, int require_comma);
-int		has_extra(char *str, int i);
-void	free_three(char *a, char *b, char *c);
-void	validate_rgb(int *rgb);
 
 static void	parse_vec3_parts(char *str, char **xs, char **ys, char **zs)
 {

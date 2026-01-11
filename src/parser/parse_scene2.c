@@ -6,15 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 00:00:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2026/01/09 17:12:47 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:02:34 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	init_scene(t_scene *scene);
-int		check_extension(char *filename);
-int		is_empty_file(int fd);
 
 static int	open_and_check_file(char *filename)
 {

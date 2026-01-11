@@ -6,13 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/22 22:47:22 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:00:48 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	validate_normal_vector(t_vec3 vec, char *error_msg);
 
 void	parse_ambient(t_scene *scene, char **parts)
 {

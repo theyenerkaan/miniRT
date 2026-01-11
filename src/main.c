@@ -6,15 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 15:25:26 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 17:56:33 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-int		init_mlx(t_minirt *rt);
-void	setup_camera(t_camera *cam);
-void	render_scene(t_minirt *rt);
 
 static void	put_img(void *m, void *w, void *i)
 {

@@ -6,14 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 17:00:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2026/01/09 16:50:13 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 18:01:22 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	validate_normal_vector(t_vec3 vec, char *error_msg);
-void	add_object(t_scene *scene, t_object *new_obj);
 
 void	create_sphere_obj(t_scene *scene, t_vec3 ctr, double d, t_color c)
 {

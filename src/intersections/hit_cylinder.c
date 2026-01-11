@@ -6,15 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/22 21:33:42 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 17:59:30 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-int		check_height(t_cylinder *cy, double m);
-void	calc_cylinder_abc(t_ray ray, t_cylinder *cy, t_vec3 oc, double *abc);
-double	solve_cylinder(double *abc, double discriminant, int first);
 
 static int	check_cap(t_cylinder *cy, double t, double m, double t_min)
 {
