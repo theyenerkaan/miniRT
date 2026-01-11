@@ -1,74 +1,84 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_scene.c                                      :+:      :+:    :+:   */
+/*   parse_scene2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2026/01/11 18:02:02 by yenyilma         ###   ########.fr       */
+/*   Created: 2024/12/24 00:00:00 by yenyilma          #+#    #+#             */
+/*   Updated: 2026/01/11 18:02:34 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	parse_line_element(t_scene *scene, char **parts)
+static int	open_and_check_file(char *filename)
 {
-	if (ft_strncmp(parts[0], "A", 2) == 0)
-		parse_ambient(scene, parts);
-	else if (ft_strncmp(parts[0], "C", 2) == 0)
-		parse_camera(scene, parts);
-	else if (ft_strncmp(parts[0], "L", 2) == 0)
-		parse_light(scene, parts);
-	else if (ft_strncmp(parts[0], "sp", 3) == 0)
-		parse_sphere(scene, parts);
-	else if (ft_strncmp(parts[0], "pl", 3) == 0)
-		parse_plane(scene, parts);
-	else if (ft_strncmp(parts[0], "cy", 3) == 0)
-		parse_cylinder(scene, parts);
-	else
-		error_exit("Invalid identifier (expected: A, C, L, sp, pl, cy)");
-}
+	int	fd;
 
-static void	clean_line(char *line, int *len)
-{
-	while (line[*len])
+	if (!check_extension(filename))
+		error_exit("File must have .rt extension");
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		error_exit("Cannot open file");
+	if (is_empty_file(fd))
 	{
-		if (line[*len] == '\t')
-			line[*len] = ' ';
-		(*len)++;
+		close(fd);
+		error_exit("Empty scene");
 	}
-	*len = ft_strlen(line);
-	while (*len > 0 && (line[*len - 1] == ' ' || line[*len - 1] == '\t'
-			|| line[*len - 1] == '\n' || line[*len - 1] == '\r'))
-		line[--(*len)] = '\0';
+	close(fd);
+	return (fd);
 }
 
-void	process_line(t_scene *scene, char *line)
+static t_scene	*allocate_scene(void)
 {
-	char	**parts;
-	int		len;
+	t_scene	*scene;
 
-	if (!line || !*line || *line == '\n' || *line == '#')
-		return ;
-	len = 0;
-	clean_line(line, &len);
-	if (len == 0)
-		return ;
-	parts = ft_split(line, ' ');
-	set_current_parts(parts);
-	if (!parts || !parts[0])
+	scene = malloc(sizeof(t_scene));
+	if (!scene)
+		error_exit("Memory allocation failed");
+	init_scene(scene);
+	return (scene);
+}
+
+static void	read_scene_file(t_scene *scene, int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	while (line)
 	{
-		free_parts(parts);
-		clear_current_parts();
-		return ;
+		set_current_line(line);
+		process_line(scene, line);
+		free(line);
+		clear_current_line();
+		line = get_next_line(fd);
 	}
-	parse_line_element(scene, parts);
-	free_parts(parts);
-	clear_current_parts();
 }
 
-t_scene	*parse_scene(char *filename)
+static void	validate_scene(t_scene *scene)
 {
-	return (parse_scene_file(filename));
+	if (!scene->has_ambient || !scene->has_camera)
+		error_exit("Missing required elements (A, C)");
+	if (scene->object_count == 0)
+		error_exit("Scene must contain at least one object (sp, pl, cy)");
+}
+
+t_scene	*parse_scene_file(char *filename)
+{
+	t_scene	*scene;
+	int		fd;
+
+	open_and_check_file(filename);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		error_exit("Cannot open file");
+	scene = allocate_scene();
+	set_parse_context(scene);
+	read_scene_file(scene, fd);
+	close(fd);
+	get_next_line(-1);
+	validate_scene(scene);
+	set_parse_context(NULL);
+	return (scene);
 }

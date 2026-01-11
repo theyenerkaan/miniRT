@@ -6,19 +6,11 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 16:50:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2026/01/09 16:50:13 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 19:35:58 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	clear_current_parts(void)
-{
-	t_parse_ctx	*ctx;
-
-	ctx = get_parse_context();
-	ctx->parts = NULL;
-}
 
 static void	cleanup_temp_allocs(t_parse_ctx *ctx)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils3.c                                     :+:      :+:    :+:   */
+/*   parse_allocate.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 16:55:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/25 16:55:00 by yenyilma         ###   ########.fr       */
+/*   Updated: 2026/01/11 20:44:51 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,12 @@ int	check_sign_and_space(const char *str, int i)
 		return (i + 1);
 	}
 	return (i);
+}
+
+void	clear_current_parts(void)
+{
+	t_parse_ctx	*ctx;
+
+	ctx = get_parse_context();
+	ctx->parts = NULL;
 }

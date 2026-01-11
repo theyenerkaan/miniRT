@@ -6,7 +6,7 @@
 #    By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/21 00:00:00 by kaan              #+#    #+#              #
-#    Updated: 2025/12/25 15:25:26 by yenyilma         ###   ########.fr        #
+#    Updated: 2026/01/11 20:36:49 by yenyilma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,22 +32,22 @@ SRCS                =   src/main.c \
                         src/math/color.c \
                         src/math/color_utils.c \
                         src/math/ray.c \
-                        src/parser/parse_common.c \
-                        src/parser/parse_common2.c \
-                        src/parser/parse_common3.c \
-                        src/parser/parse_common4.c \
-                        src/parser/parse_context.c \
-                        src/parser/parse_context2.c \
-                        src/parser/parse_context3.c \
+                        src/parser/clean_context.c \
+                        src/parser/color_error_handler.c \
+                        src/parser/init_context.c \
+                        src/parser/parse_allocate.c \
+                        src/parser/parse_cylender_sphere_objects.c \
                         src/parser/parse_elements.c \
-                        src/parser/parse_objects.c \
-                        src/parser/parse_objects2.c \
+                        src/parser/parse_extension.c \
+                        src/parser/parse_extra.c \
+                        src/parser/parse_file.c \
+                        src/parser/parse_line.c \
+                        src/parser/parse_num.c \
+                        src/parser/parse_plane.c \
                         src/parser/parse_scene.c \
-                        src/parser/parse_scene2.c \
-                        src/parser/parse_utils.c \
-                        src/parser/parse_utils2.c \
-                        src/parser/parse_utils3.c \
-                        src/parser/parse_utils4.c \
+                        src/parser/parse_space.c \
+                        src/parser/temp_allocs.c \
+                        src/parser/validate_vec.c \
                         src/render/camera.c \
                         src/render/trace.c \
                         src/render/render.c \
@@ -57,8 +57,8 @@ SRCS                =   src/main.c \
                         src/intersections/hit_cylinder_utils.c \
                         src/shading/shading.c \
                         src/shading/shadow.c \
-                        src/mlx/mlx_init.c \
-                        src/mlx/mlx_hooks.c \
+                        src/init_mlx.c \
+                        src/hooks.c \
                         src/get_next_line.c \
                         src/get_next_line_utils.c
 
